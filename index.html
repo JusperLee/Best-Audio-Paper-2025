@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025 音频领域年度论文榜单</title>
+  <style>
+    :root {
+      --bg: #0a0f1f;
+      --panel: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.08);
+      --glow-1: #8ef3c5;
+      --glow-2: #8ec5ff;
+      --text: #eef3ff;
+      --muted: #9ca3b5;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(142, 245, 197, 0.12), transparent 35%),
+        radial-gradient(circle at 80% 0%, rgba(142, 197, 255, 0.2), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.01em;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .pill strong { color: var(--text); }
+
+    .board {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .board::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(142, 245, 197, 0.08), rgba(142, 197, 255, 0.06));
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .board-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .board-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      font-size: 16px;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, rgba(142, 245, 197, 0.25), rgba(142, 197, 255, 0.25));
+      color: #0a0f1f;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .board-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+    }
+
+    .board-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px 12px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .board-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(142, 245, 197, 0.08), rgba(142, 197, 255, 0.05));
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .board-item::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--glow-1), var(--glow-2));
+      opacity: 0.85;
+    }
+
+    .rank {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(142, 245, 197, 0.2), rgba(142, 197, 255, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #0a0f1f;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .item-text { display: flex; flex-direction: column; gap: 4px; }
+
+    .item-text h4 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: 0.01em;
+    }
+
+    .item-text .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .item-text .reason {
+      margin: 0;
+      color: #d5ffe9;
+      font-size: 12px;
+      letter-spacing: 0.01em;
+      font-style: italic;
+      opacity: 0.9;
+    }
+
+    .links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 12px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .link-btn:hover {
+      border-color: rgba(142, 245, 197, 0.5);
+      box-shadow: 0 6px 16px rgba(142, 245, 197, 0.12);
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (max-width: 640px) {
+      .top-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .board-item { grid-template-columns: auto 1fr; }
+      .tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top-bar">
+      <div class="pill"><strong>2025</strong> 音频领域年度论文榜单</div>
+      <div class="pill">字母顺序</div>
+    </div>
+
+    <section class="board" aria-label="最佳音频论文 TOP10">
+      <div class="board-header">
+        <div class="board-title">
+          <span class="badge">TOP10</span>
+          最佳音频论文
+        </div>
+      </div>
+      <div class="board-list">
+        <!-- 按首字母顺序排列 -->
+        <div class="board-item"><div class="rank">A</div><div class="item-text"><h4>ArrayDPS: Unsupervised Blind Speech Separation with a Diffusion Prior</h4><p class="meta">Zhongweiyang Xu, Xulin Fan, Zhong-Qiu Wang, Xilin Jiang, Romit Roy Choudhury</p><p class="reason">推荐理由：无监督盲语音分离，无需阵列先验；基于扩散后验采样并联合估计房间声学与相对传输函数，简单单人语音扩散先验即可在多基准逼近/超越监督方法。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2505.05657" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/ArrayDPS/ArrayDPS" target="_blank" rel="noopener">Code</a></div></div><div class="tag">分离·无监督</div></div>
+        <div class="board-item"><div class="rank">B</div><div class="item-text"><h4>Audio Super-Resolution with Latent Bridge Models</h4><p class="meta">Chang Li, Zehua Chen, Liyuan Wang, Jun Zhu</p><p class="reason">推荐理由：音频超分辨率新范式；在潜空间设计 Latent Bridge Model 实现 LR-to-HR 生成，频率感知训练支持任意采样率上采样，级联策略首次突破 48kHz 达 192kHz，在语音/音效/音乐基准全面 SOTA。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2509.17609" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="#" target="_blank" rel="noopener">Code（待补充）</a></div></div><div class="tag">超分辨率·生成</div></div>
+        <div class="board-item"><div class="rank">C</div><div class="item-text"><h4>Audio-FLAN: A Preliminary Release</h4><p class="meta">Liumeng Xue, Ziya Zhou, Jiahao Pan, Zixuan Li, Shuai Fan, Yinghao Ma 等</p><p class="reason">推荐理由：首个大规模统一音频指令微调数据集；覆盖语音/音乐/音效 80 类任务、超 1 亿样本，弥合理解与生成鸿沟，为零样本统一音频-语言模型奠定基础，数据集在 HuggingFace/GitHub 持续更新开源。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2502.16584" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/Audio-FLAN/Audio-FLAN" target="_blank" rel="noopener">Code</a></div></div><div class="tag">数据集·指令微调</div></div>
+        <div class="board-item"><div class="rank">D</div><div class="item-text"><h4>BridgeVoC: Revitalizing Neural Vocoder from a Restoration Perspective</h4><p class="meta">Andong Li, Tong Lei, Rilin Chen, Kai Li, Meng Yu, Xiaodong Li, Dong Yu, Chengshi Zheng</p><p class="reason">推荐理由：将 vocoder 视作音频修复，引入 Schrödinger bridge 扩散框架与非均匀子带卷积网络，4 步采样即达 SOTA，并支持单步蒸馏推理。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2511.07116" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="#" target="_blank" rel="noopener">Code（待补充）</a></div></div><div class="tag">vocoder·扩散</div></div>
+        <div class="board-item"><div class="rank">E</div><div class="item-text"><h4>DiTAR: Diffusion Transformer Autoregressive Modeling for Speech Generation</h4><p class="meta">Dongya Jia, Zhuo Chen, Jiawei Chen, Chenpeng Du, Jian Wu, Jian Cong, Xiaobin Zhuang, Chumin Li, Zhen Wei, Yuping Wang, Yuxuan Wang</p><p class="reason">推荐理由：结合语言模型与扩散 Transformer 的分块自回归框架，连续 token 生成算力可控；通过噪声时间温度调度平衡多样性与确定性，零样本语音生成在鲁棒性、音色相似度与自然度上达 SOTA。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2502.03930" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="#" target="_blank" rel="noopener">Code（待补充）</a></div></div><div class="tag">TTS·扩散</div></div>
+        <div class="board-item"><div class="rank">F</div><div class="item-text"><h4>Kimi-Audio Technical Report</h4><p class="meta">KimiTeam 等</p><p class="reason">推荐理由：开源音频基础模型，统一理解、生成与对话；12.5Hz tokenizer + LLM 架构，连续输入离散输出，流式 flow matching 反量化，1300 万小时多模态预训练，语音识别/问答/对话等多基准 SOTA，并开放代码、模型与评测工具链。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2504.18425" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/MoonshotAI/Kimi-Audio" target="_blank" rel="noopener">Code</a></div></div><div class="tag">全模态·基础模型</div></div>
+        <div class="board-item"><div class="rank">G</div><div class="item-text"><h4>Ming-Flash-Omni: A Sparse, Unified Architecture for Multimodal Perception and Generation</h4><p class="meta">Inclusion AI</p><p class="reason">推荐理由：100B-A6B 稀疏 MoE 全模态统一架构；双平衡路由机制稳定多模态训练，上下文感知与方言 ASR 在 12 项 ContextASR 基准及 15 种中文方言刷新 SOTA，支持流式视频对话/图像生成编辑/语音克隆。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2510.24821" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/inclusionAI/Ming" target="_blank" rel="noopener">Code</a></div></div><div class="tag">全模态·MoE</div></div>
+        <div class="board-item"><div class="rank">H</div><div class="item-text"><h4>Qwen3-Omni Technical Report</h4><p class="meta">Qwen Team</p><p class="reason">推荐理由：原生全模态语音/音频一体化建模，端到端流式对话，音频理解与生成在多项基准上刷新 SOTA，低延迟支撑实时交互。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2509.17765" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/QwenLM/Qwen3" target="_blank" rel="noopener">Code</a></div></div><div class="tag">全模态·语音</div></div>
+        <div class="board-item"><div class="rank">I</div><div class="item-text"><h4>SHANKS: Simultaneous Hearing and Thinking for Spoken Language Models</h4><p class="meta">Cheng-Han Chiang, Xiaofei Wang, Linjie Li, Chung-Ching Lin, Kevin Lin, Shujie Liu, Zhendong Wang, Zhengyuan Yang, Hung-yi Lee, Lijuan Wang</p><p class="reason">推荐理由：让语音模型"边听边想"；流式分块输入 + 无声 CoT 推理实现实时交互，可在用户说错时主动打断（准确率提升 37.1%）并在用户结束前完成 56.9% 工具调用，推动语音对话从"听完再答"迈向全程思考。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2510.06917" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="#" target="_blank" rel="noopener">Code（待补充）</a></div></div><div class="tag">对话·实时推理</div></div>
+        <div class="board-item"><div class="rank">J</div><div class="item-text"><h4>Step-Audio-R1 Technical Report</h4><p class="meta">Fei Tian, Xiangyu Tony Zhang, Yuxin Zhang, Haoyang Zhang, Yuxin Li, Daijiao Liu, Yayue Deng, Donghang Wu, Jun Chen, Liang Zhao 等</p><p class="reason">推荐理由：首个音频推理模型；提出 Modality-Grounded Reasoning Distillation (MGRD) 框架，让 CoT 推理真正锚定声学特征而非幻觉，在语音/环境声/音乐理解基准上超越 Gemini 2.5 Pro 并逼近 Gemini 3 Pro，证明推理能力可跨模态迁移。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2511.15848" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="#" target="_blank" rel="noopener">Code（待补充）</a></div></div><div class="tag">推理·音频理解</div></div>
+      </div>
+    </section>
+
+    <section class="board" aria-label="最佳 demo 论文 TOP10">
+      <div class="board-header">
+        <div class="board-title">
+          <span class="badge">TOP10</span>
+          最佳 demo 论文
+        </div>
+      </div>
+      <div class="board-list">
+        <div class="board-item"><div class="rank">A</div><div class="item-text"><h4>Apollo: Band-sequence Modeling for High-Quality Audio Restoration</h4><p class="meta">Kai Li, Yi Luo</p><p class="reason">推荐理由：显式频带拆分建模低/中/高频关系，在 MUSDB18-HQ/MoisesDB 多码率多曲风场景超越 SR-GAN，被集成到多个网站与平台广泛应用，官方 Demo 及代码全开源。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2409.08514" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/JusperLee/Apollo" target="_blank" rel="noopener">Code</a><a class="link-btn" href="https://cslikai.cn/Apollo" target="_blank" rel="noopener">Demo</a></div></div><div class="tag">修复·demo</div></div>
+        <div class="board-item"><div class="rank">B</div><div class="item-text"><h4>DiffRhythm: Blazingly Fast and Embarrassingly Simple End-to-End Full-Length Song Generation</h4><p class="meta">Ziqian Ning, Huakang Chen, Yuepeng Jiang, Chunbo Hao, Guobin Ma, Shuai Wang, Jixun Yao, Lei Xie</p><p class="reason">推荐理由：首个开源扩散式全曲生成模型；支持 285 秒完整歌曲、文本风格提示、纯音乐/续写等多模式，Hugging Face Demo 与多版本模型（base/full/v1.2）覆盖 8G 显存即可本地部署。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2503.01183" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/ASLP-lab/DiffRhythm" target="_blank" rel="noopener">Code</a></div></div><div class="tag">歌曲生成·demo</div></div>
+        <div class="board-item"><div class="rank">C</div><div class="item-text"><h4>F5-TTS: A Fairytaler that Fakes Fluent and Faithful Speech with Flow Matching</h4><p class="meta">Yushen Chen, Zhikang Niu, Ziyang Ma, Keqi Deng, Chunhui Wang, Jian Zhao, Kai Yu, Xie Chen</p><p class="reason">推荐理由：全非自回归 DiT+Flow Matching TTS；无需时长模型/音素对齐，ConvNeXt 文本表征 + Sway Sampling 显著提升收敛与鲁棒性，RTF 0.15 达 SOTA 效率，100K 小时多语言训练实现零样本、code-switching 与语速控制。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2410.06885" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/SWivid/F5-TTS" target="_blank" rel="noopener">Code</a></div></div><div class="tag">TTS·demo</div></div>
+        <div class="board-item"><div class="rank">D</div><div class="item-text"><h4>FlowSep: Language-Queried Sound Separation with Rectified Flow Matching</h4><p class="meta">Yi Yuan, Xubo Liu, Haohe Liu, Mark D. Plumbley, Wenwu Wang</p><p class="reason">推荐理由：语言引导声源分离；基于 Rectified Flow Matching 从高斯噪声到目标源特征学习线性轨迹，在预训练潜空间重建 mel 频谱，多基准超越 SOTA，提供完整训练/推理代码与 Demo。</p><div class="links"><a class="link-btn" href="https://ieeexplore.ieee.org/abstract/document/10890129/" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/Audio-AGI/FlowSep" target="_blank" rel="noopener">Code</a><a class="link-btn" href="https://audio-agi.github.io/FlowSep_demo/" target="_blank" rel="noopener">Demo</a></div></div><div class="tag">分离·demo</div></div>
+        <div class="board-item"><div class="rank">E</div><div class="item-text"><h4>IndexTTS2: Emotionally Expressive and Duration-Controlled Zero-Shot TTS</h4><p class="meta">Siyi Zhou, Yiquan Zhou, Yi He, Xun Zhou, Jinchao Wang, Wei Deng, Jingchen Shu</p><p class="reason">推荐理由：零样本自回归 TTS 的情感与时长精控突破；显式 token 数或自由自回归双模式，情感-音色解耦并用软指令驱动情感，结合 GPT 潜变量与三阶段训练显著降低 WER、提升相似度与情感保真。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2506.21619" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/index-tts/index-tts/tree/main" target="_blank" rel="noopener">Code</a></div></div><div class="tag">TTS·情感</div></div>
+        <div class="board-item"><div class="rank">F</div><div class="item-text"><h4>Omni-Captioner: Data Pipeline, Models, and Benchmark for Omni Detailed Perception</h4><p class="meta">Ziyang Ma, Ruiyang Xu, Zhenghao Xing, Yunfei Chu, Yuxuan Wang, Jinzheng He, Jin Xu, Pheng-Ann Heng, Kai Yu, Junyang Lin, Eng Siong Chng, Xie Chen</p><p class="reason">推荐理由：系统性全模态细粒度感知研究；提出 Omni-Detective Agent 数据生成管线解决细节/幻觉共增长问题，Audio-Captioner 在 MMAU/MMAR 开源模型中达 SOTA 并超越 Gemini 2.5 Flash，Omni-Captioner 在 VDC 基准刷新纪录，并首创 Omni-Cloze 基准。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2510.12720" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/ddlBoJack/Omni-Captioner" target="_blank" rel="noopener">Code</a></div></div><div class="tag">caption·全模态</div></div>
+        <div class="board-item"><div class="rank">G</div><div class="item-text"><h4>Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages</h4><p class="meta">Meta Omnilingual ASR Team</p><p class="reason">推荐理由：史上最大规模多语言 ASR，覆盖 1600+ 语言（含 500+ 首次支持）；7B 参数自监督预训练 + LLM 式解码器实现零样本泛化，社区仅需少量样本即可扩展新语种，提供 300M 至 7B 全系列开源模型。</p><div class="links"><a class="link-btn" href="https://ai.meta.com/research/publications/omnilingual-asr-open-source-multilingual-speech-recognition-for-1600-languages/" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/facebookresearch/omnilingual-asr" target="_blank" rel="noopener">Code</a></div></div><div class="tag">ASR·多语言</div></div>
+        <div class="board-item"><div class="rank">H</div><div class="item-text"><h4>Qwen3-Omni Technical Report</h4><p class="meta">Qwen Team</p><p class="reason">推荐理由：原生全模态语音/音频一体化建模，端到端流式对话，音频理解与生成在多项基准上刷新 SOTA，低延迟支撑实时交互。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2509.17765" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/QwenLM/Qwen3" target="_blank" rel="noopener">Code</a></div></div><div class="tag">全模态·demo</div></div>
+        <div class="board-item"><div class="rank">I</div><div class="item-text"><h4>SAM Audio: Segment Anything in Audio</h4><p class="meta">Bowen Shi, Andros Tjandra, John Hoffman, Helin Wang, Yi-Chiao Wu, Luya Gao, Julius Richter, Matt Le, Apoorv Vyas, Sanyuan Chen, Christoph Feichtenhofer, Piotr Dollár, Wei-Ning Hsu, Ann Lee</p><p class="reason">推荐理由：通用音频分离 demo，统一文本/视觉/时间段提示，基于扩散 Transformer + flow matching，在语音、音乐、通用声源分离基准显著领先，并提供人标多模态提示数据与无参考评测模型。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2512.18099" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/facebookresearch/sam-audio" target="_blank" rel="noopener">Code</a></div></div><div class="tag">分离·demo</div></div>
+        <div class="board-item"><div class="rank">J</div><div class="item-text"><h4>VoxCPM: Tokenizer-Free TTS for Context-Aware Speech Generation and True-to-Life Voice Cloning</h4><p class="meta">Yixuan Zhou, Guoyang Zeng, Xin Liu, Xiang Li, Renjie Yu, Ziyang Wang, Runchuan Ye, Weiyue Sun, Jiancheng Gui, Kehan Li, Zhiyong Wu, Zhiyuan Liu</p><p class="reason">推荐理由：无 Tokenizer 端到端 TTS；层级语义-声学建模 + 半离散残差表征，TSLM 生成语义韵律 plan、RALM 恢复声学细节，180 万小时双语训练达开源零样本 SOTA，支持上下文感知风格推断。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2509.24650" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/OpenBMB/VoxCPM" target="_blank" rel="noopener">Code</a></div></div><div class="tag">TTS·demo</div></div>
+      </div>
+    </section>
+
+    <section class="board" aria-label="最佳开源论文 TOP10">
+      <div class="board-header">
+        <div class="board-title">
+          <span class="badge">TOP10</span>
+          最佳开源Code论文
+        </div>
+      </div>
+      <div class="board-list">
+        <div class="board-item"><div class="rank">A</div><div class="item-text"><h4>Kimi-Audio Technical Report</h4><p class="meta">KimiTeam 等</p><p class="reason">推荐理由：开源音频基础模型，覆盖理解/生成/对话全链路；12.5Hz tokenizer 与 LLM 架构结合，chunk 级流式 flow matching 解码，超 1300 万小时多模态预训练，ASR、音频问答与对话评测显著领先，并提供完整代码、模型与评测工具包。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2504.18425" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/MoonshotAI/Kimi-Audio" target="_blank" rel="noopener">Code</a></div></div><div class="tag">全模态·开源</div></div>
+        <div class="board-item"><div class="rank">B</div><div class="item-text"><h4>LeVo: High-Quality Song Generation with Multi-Preference Alignment</h4><p class="meta">Shun Lei, Yaoxun Xu, Zhiwei Lin, Huaicheng Zhang, Wei Tan, Hangting Chen, Jianwei Yu, Yixuan Zhang, Chenyu Yang, Haina Zhu, Shuai Wang, Zhiyong Wu, Dong Yu</p><p class="reason">推荐理由：歌曲生成框架；LeLM 并行建模混合/双轨 token 提升人声-伴奏和谐与音质，引入 DPO 多偏好对齐增强乐感与指令跟随，主客观指标超越开源方案并逼近 Suno 等商用平台，代码与模型全开源。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2506.07520" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/tencent-ailab/SongGeneration" target="_blank" rel="noopener">Code</a></div></div><div class="tag">歌曲生成·开源</div></div>
+        <div class="board-item"><div class="rank">C</div><div class="item-text"><h4>MiMo-Audio Technical Report</h4><p class="meta">Xiaomi MiMo 团队</p><p class="reason">推荐理由：开源通用音频大模型，预训练规模 1 亿+ 小时，Tokenizer/模型/评测全链路开放；7B Instruct 加入思维链与指令微调，在 MMSU/MMAU/MMAR 等基准达开源 SOTA，官网提供丰富 demo 与推理样例。</p><div class="links"><a class="link-btn" href="https://github.com/XiaomiMiMo/MiMo-Audio/blob/main/MiMo-Audio-Technical-Report.pdf" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/XiaomiMiMo/MiMo-Audio" target="_blank" rel="noopener">Code</a><a class="link-btn" href="https://xiaomimimo.github.io/MiMo-Audio-Demo/" target="_blank" rel="noopener">Demo</a></div></div><div class="tag">开源·音频模型</div></div>
+        <div class="board-item"><div class="rank">D</div><div class="item-text"><h4>MMAR: A Challenging Benchmark for Deep Reasoning in Speech, Audio, Music, and Their Mix</h4><p class="meta">Ziyang Ma 等</p><p class="reason">推荐理由：首个覆盖语音/音频/音乐及其混合的深度推理基准，信号-感知-语义-文化四层标注并附 CoT，全面挑战音频大模型的推理与理解。</p><div class="links"><a class="link-btn" href="https://www.microsoft.com/en-us/research/publication/mmar-a-challenging-benchmark-for-deep-reasoning-in-speech-audio-music-and-their-mix/" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/ddlBoJack/MMAR" target="_blank" rel="noopener">Code</a></div></div><div class="tag">基准·开源</div></div>
+        <div class="board-item"><div class="rank">E</div><div class="item-text"><h4>Qwen3-Omni Technical Report</h4><p class="meta">Qwen Team</p><p class="reason">推荐理由：原生全模态语音/音频一体化建模，端到端流式对话，音频理解与生成在多项基准上刷新 SOTA，低延迟支撑实时交互。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2509.17765" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/QwenLM/Qwen3" target="_blank" rel="noopener">Code</a></div></div><div class="tag">全模态·开源</div></div>
+        <div class="board-item"><div class="rank">F</div><div class="item-text"><h4>SAM Audio: Segment Anything in Audio</h4><p class="meta">Bowen Shi, Andros Tjandra, John Hoffman, Helin Wang, Yi-Chiao Wu, Luya Gao, Julius Richter, Matt Le, Apoorv Vyas, Sanyuan Chen, Christoph Feichtenhofer, Piotr Dollár, Wei-Ning Hsu, Ann Lee</p><p class="reason">推荐理由：开源通用音频分离方案，支持多模态提示的可控分离，扩散 Transformer + flow matching 覆盖语音/音乐/通用声源，基准 SOTA，并伴随人标提示数据与无参考评估模型。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2512.18099" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/facebookresearch/sam-audio" target="_blank" rel="noopener">Code</a></div></div><div class="tag">分离·开源</div></div>
+        <div class="board-item"><div class="rank">G</div><div class="item-text"><h4>SongBloom: Coherent Song Generation via Interleaved Autoregressive Sketching and Diffusion Refinement</h4><p class="meta">Chenyu Yang, Shuai Wang, Hangting Chen, Wei Tan, Jianwei Yu, Haizhou Li</p><p class="reason">推荐理由：交错式自回归草图 + 扩散精修范式，从短到长逐步延展、从粗到细迭代细化，结合语义与声学上下文引导，主客观评测超越现有方法并逼近商用平台，代码与权重已全开源。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2506.07634" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/tencent-ailab/SongBloom" target="_blank" rel="noopener">Code</a></div></div><div class="tag">音乐生成·开源</div></div>
+        <div class="board-item"><div class="rank">H</div><div class="item-text"><h4>Step-Audio-EditX Technical Report</h4><p class="meta">Chao Yan, Boyong Wu, Peng Yang, Pengfei Tan, Guoqiang Hu, Li Xie, Yuxin Zhang, Xiangyu (Tony) Zhang, Fei Tian, Xuerui Yang, Xiangyu Zhang, Daxin Jiang, Shuchang Zhou, Gang Yu</p><p class="reason">推荐理由：首个开源大模型级音频编辑与零样本 TTS，依托大间隔合成数据训练实现情感/风格/副语言的迭代可控编辑，无需嵌入先验或辅助模块，在情感编辑等细粒度任务超越 MiniMax-2.6-hd 与 Doubao-Seed-TTS-2.0。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2511.03601" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="#" target="_blank" rel="noopener">Code（待补充）</a></div></div><div class="tag">编辑·TTS</div></div>
+        <div class="board-item"><div class="rank">I</div><div class="item-text"><h4>VibeVoice Technical Report</h4><p class="meta">Zhiliang Peng, Jianwei Yu, Wenhui Wang, Yaoyao Chang, Yutao Sun, Li Dong, Yi Zhu, Weijiang Xu, Hangbo Bao, Zehua Wang, Shaohan Huang, Yan Xia, Furu Wei</p><p class="reason">推荐理由：开源长对话语音生成框架；7.5Hz 连续 tokenizer 实现 80 倍压缩，Next-token 扩散支持 90 分钟/4 说话人长对话，另有实时 TTS 版本 300ms 首包延迟，MIT 许可全开源。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2508.19205" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/microsoft/VibeVoice" target="_blank" rel="noopener">Code</a></div></div><div class="tag">对话TTS·开源</div></div>
+        <div class="board-item"><div class="rank">J</div><div class="item-text"><h4>Zipformer: A faster and better encoder for automatic speech recognition</h4><p class="meta">Zengwei Yao, Liyong Guo, Xiaoyu Yang, Wei Kang, Fangjun Kuang, Yifan Yang, Zengrui Jin, Long Lin, Daniel Povey</p><p class="reason">推荐理由：更快更省内存的 Transformer ASR 编码器；U-Net 多帧率结构 + 注意力复用 + BiasNorm + ScaledAdam 优化器，在 LibriSpeech/Aishell-1/WenetSpeech 等基准超越 Conformer SOTA，代码全开源。</p><div class="links"><a class="link-btn" href="https://arxiv.org/abs/2310.11230" target="_blank" rel="noopener">Paper</a><a class="link-btn" href="https://github.com/k2-fsa/icefall" target="_blank" rel="noopener">Code</a></div></div><div class="tag">ASR·开源</div></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
